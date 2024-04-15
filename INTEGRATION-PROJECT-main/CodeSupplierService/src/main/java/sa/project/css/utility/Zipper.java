@@ -1,5 +1,6 @@
 package sa.project.css.utility;
 
+import io.github.pixee.security.ZipSecurity;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public class Zipper implements IZipper {
 
     public void unZip(String zipSrc, String dest) throws IOException {
         String fileZip = zipSrc;
-        try(ZipInputStream zis = new ZipInputStream(new FileInputStream(fileZip));) {
+        try(ZipInputStream zis = ZipSecurity.createHardenedInputStream(new FileInputStream(fileZip));) {
             File destDir = new File(dest);
 
             byte[] buffer = new byte[BUFFER_SIZE];
