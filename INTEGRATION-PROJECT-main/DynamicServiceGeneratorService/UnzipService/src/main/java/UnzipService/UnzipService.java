@@ -1,6 +1,7 @@
 package UnzipService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pixee.security.ZipSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.MessageHeaders;
@@ -52,7 +53,7 @@ public class UnzipService implements Serializable {
         File destDir = new File(destDirectory);
         destDir.mkdir();
 
-        ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(file));
+        ZipInputStream zipIn = ZipSecurity.createHardenedInputStream(new ByteArrayInputStream(file));
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file
         while (entry != null) {
